@@ -15,7 +15,11 @@ class HostingInline(admin.TabularInline):
 class WebsiteAdmin(admin.ModelAdmin):
     inlines = [HostingInline]
     search_fields = ['title']
-    list_display = ('id','title','fk','dob')
+    list_display = ('site','fk','dob')
+    
+    def site(self,obj):
+        return '<a href="%s">%s</a>' % (obj.admin_url(), obj.title)
+    site.allow_tags = True
 
 class WebsiteInline(admin.TabularInline):
     model = Website
@@ -26,6 +30,7 @@ class WebsiteInline(admin.TabularInline):
 
 class ClientAdmin(admin.ModelAdmin):
     model = Client
+    list_display = ('title','email','contact')
     search_fields = ['title','email']
     inlines = [WebsiteInline]
 
@@ -82,8 +87,8 @@ class HostingAdmin(admin.ModelAdmin):
     list_filter = (RenewalDatePassedListFilter, )
 
     def client(self,obj):
-        return obj.fk_client.title
-
+        return '<a href="%s">%s</a>' % (obj.fk_client.admin_url(), obj.fk_client.title)
+    client.allow_tags = True
     def website_url(self, obj):
         return '<a href="%s">%s</a>' % (obj.fk.url, obj.fk.title)
     website_url.allow_tags = True

@@ -2,7 +2,7 @@ from django.contrib import admin
 from models import Client, Website, Hosting
 import datetime
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.sites.models import Site
+#from django.contrib.sites.models import Site
 from django.core import urlresolvers
 
 

@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+# Mail settings 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dontreply@dfmx.co.uk'
+EMAIL_HOST_PASSWORD = 'Thirteen13--'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,12 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    #'django.contrib.sites',
 
-    'clients'
+    'clients',
+    'accounts',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,11 +62,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'portal.urls'
-
+DIRS = os.path.join(BASE_DIR,'templates/')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [DIRS],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

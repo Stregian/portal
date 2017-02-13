@@ -1,0 +1,37 @@
+
+{% block content %}
+<div class="page-header">
+   <h1>Please login </h1>
+</div>
+
+<form action='{% url 'login' %}' method="post">
+	{% csrf_token %}
+	
+	<div class="form-group {% if form.username.errors %}has-error has-feedback{% endif %}">
+		<label class="control-label {% if form.username.field.required %}required{% endif %}" for="id_username">Enter username {% for e in form.username.errors %}&mdash; {{e}} {% endfor %}</label>
+		
+		<input type="username" class="form-control" id="id_username" name="username" placeholder="Enter username"  value="{% if form.username.value %}{{form.username.value}}{% endif %}" {% if form.username.errors %}aria-describedby="usernameStatus"{% endif %}>
+		
+		{% if form.username.errors %}
+		<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		<span id="usernameStatus" class="sr-only">(error)</span>{% endif %}
+	</div>
+	
+
+	<div class="form-group  {% if form.password.errors %}has-error  has-feedback{% endif %}">
+		<label class="control-label  {% if form.password.field.required %}required{% endif %}" for="id_password">Password {% for e in form.password.errors %}&mdash; {{e}} {% endfor %}</label>
+
+		<input type="password" class="form-control" placeholder="Password" autocomplete="off"  name="password" id="id_password" {% if form.password.errors %}aria-describedby="passwordStatus"{% endif %}>
+		{% if form.password.errors %}
+		<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		<span id="passwordStatus" class="sr-only">(error)</span>{% endif %}
+	</div>
+	<button type="submit" class="btn btn-default">Log in</button>
+	<input type="hidden" value=" {% url 'profile' %}" />
+	<hr/>
+	<p><a id="password-reset" href="{% url 'password_reset' %}" title="Have you forgotten your password">Forgotton Password?</a> | <a id="password-reset" href="{% url 'signup_form' %}" title="Register">Register</a></p>
+</form>
+
+
+
+{% endblock %}

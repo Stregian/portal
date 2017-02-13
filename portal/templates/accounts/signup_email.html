@@ -1,0 +1,10 @@
+{% autoescape off %}
+Congratulations on signing up for your Sportsfundr account.
+
+To complete the sign-up process please confirm your
+address via the following link.
+
+{{ protocol }}://{{ domain }}{% url 'accounts.views.signup_confirm' uidb36=uid token=token %}
+
+
+{% endautoescape %}

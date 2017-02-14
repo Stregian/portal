@@ -16,5 +16,7 @@ urlpatterns = patterns('',
     url(r'^password_change/$', 'django.contrib.auth.views.password_change',  {'template_name': 'accounts/password_change_form.html'},name='password_change'),
     url(r'^password_change/done/$', 'django.contrib.auth.views.password_change_done', {'template_name': 'accounts/password_change_done.html'},name='password_change_done'),   
 
-    url(r'^accounts/profile/', 'accounts.views.profile', name = 'profile')
+    url(r'^accounts/profile/', 'accounts.views.profile', name = 'profile'),
+    #url(r'^accounts/profile/details', 'accounts.views.profile_change', name ='profile_change'),
+    #url(r'^ticket', 'accounts.')
 )

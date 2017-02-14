@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from accounts.forms import UserCreationForm
+from accounts.forms import UserCreationForm #UserProfileForm
 from django.contrib.auth.tokens import default_token_generator
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
@@ -95,9 +95,21 @@ def signup_complete(request, template_name='account/signup_complete.html'):
 
 def profile(request):
     user = get_object_or_404(User, id=request.user.id)    
-    print user.username
+    print user.username + user.username
     #if request.method == POST:
     #    form = ProfileForm(request.POST)
     context = {'user':user}
     return render(request, 'accounts/profile.html', context)
 
+def profile_change(request):
+
+    if request.user.is_active:
+        form = profile_form(request.POST)
+        if request.method == POST:
+            if form.is_valid():
+                form.save()
+            else:
+                print 'form not valid'
+    else:
+        return 'please log in'
+    return render_to_response('accounts/profile_change.html', {'form':form})

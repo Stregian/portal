@@ -1,11 +1,11 @@
 from django.contrib import admin
-from models import Client, Website, Hosting
+from models import Client, Website, Hosting, Employee
 import datetime
 from django.utils.translation import ugettext_lazy as _
 #from django.contrib.sites.models import Site
 from django.core import urlresolvers
-
-
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 
 # Register your models here.
 class HostingInline(admin.TabularInline):
@@ -15,7 +15,7 @@ class HostingInline(admin.TabularInline):
 class WebsiteAdmin(admin.ModelAdmin):
     inlines = [HostingInline]
     search_fields = ['title']
-    list_display = ('site','fk','dob')
+    list_display = ('site','client','dob')
     
     def site(self,obj):
         return '<a href="%s">%s</a>' % (obj.admin_url(), obj.title)
@@ -83,22 +83,36 @@ class HostingAdmin(admin.ModelAdmin):
     model = Hosting
     ordering = ('renewal_date',)
     list_display = ( 'client', 'cost', 'renewal_date', 'renewal_date_passed','admin_site_url', 'website_url',)
-    search_fields = ['fk__title','fk_client__title']
+    search_fields = ['website__title','client__title']
     list_filter = (RenewalDatePassedListFilter, )
 
     def client(self,obj):
-        return '<a href="%s">%s</a>' % (obj.fk_client.admin_url(), obj.fk_client.title)
+        return '<a href="%s">%s</a>' % (obj.client.admin_url(), obj.client.title)
     client.allow_tags = True
     def website_url(self, obj):
-        return '<a href="%s">%s</a>' % (obj.fk.url, obj.fk.title)
+        return '<a href="%s">%s</a>' % (obj.client.url, obj.client.title)
     website_url.allow_tags = True
 
     def admin_site_url(self,obj):
-        return '<a href="%s">%s</a>' % (obj.fk.admin_url(), obj.fk.title)
+        return '<a href="%s">%s</a>' % (obj.client.admin_url(), obj.client.title)
     admin_site_url.allow_tags = True
 
 
+class EmployeeInline(admin.StackedInline):
+    model = Employee
+    verbose_name_plural = 'employee'
 
+
+class UserAdmin(admin.ModelAdmin):
+    inlines = (EmployeeInline, )
+    list_display = ('username', 'email')
+    def client(self,obj):
+        return '<a href="%s">%s</a>' % (obj.client.admin_url(), obj.client.title)
+    client.allow_tags = True
+
+
+
+admin.site.unregister(Site)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Website, WebsiteAdmin)
 admin.site.register(Hosting, HostingAdmin)

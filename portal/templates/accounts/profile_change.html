@@ -1,0 +1,8 @@
+{% block content %}
+<div id="narrow-right">
+	<h1 class="main-title">Welcome, {{ user.username }}</h1>
+	<form  action='{% url 'profile_change' %}' method="post"> Change your profile information:
+	<input type="text" name="company" placeholder="Enter company" maxlength="200"  >
+	</form>>
+</div>
+{% endblock %}

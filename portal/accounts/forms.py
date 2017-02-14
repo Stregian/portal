@@ -6,9 +6,8 @@ from django.template import Context, loader
 from django import forms
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
-
 from django.contrib.auth.forms import AuthenticationForm
-
+from clients.models import Employee
 
 
 class UserCreationForm(forms.ModelForm):
@@ -60,7 +59,9 @@ class UserCreationForm(forms.ModelForm):
             print 'commit true, saving user'
         if not domain_override:
             current_site = Site.objects.get_current()
-            site_name = current_site.name
+            print current_site.name
+            site_name = current_site.domain
+            print site_name
             domain = current_site.domain
             print str(domain) 
         else:
@@ -88,3 +89,10 @@ class UserCreationForm(forms.ModelForm):
         email.send()
         print str(user) + 'confirmation email sent'
         return user #why return this?
+
+
+'''class UserProfileForm(forms.ModelForm):
+    client = forms.CharField(max_length=50, label='Company')
+    class Meta:
+        model = User
+'''

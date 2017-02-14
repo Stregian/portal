@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib import admin
 import datetime
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -15,6 +15,7 @@ class Client(models.Model):
 	contact = models.CharField(max_length=20, verbose_name='Contact number')
 
 
+
 	def __unicode__(self):
 		return self.title
 
@@ -23,7 +24,7 @@ class Client(models.Model):
 		return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
 
 class Website(models.Model):
-	fk = models.ForeignKey('Client', verbose_name='Client')
+	client = models.ForeignKey('Client')
 	title = models.CharField(max_length=254)
 	url = models.URLField()
 	dob = models.DateField(verbose_name="Date of birth")
@@ -36,8 +37,8 @@ class Website(models.Model):
 		return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
 
 class Hosting(models.Model):
-	fk = models.ForeignKey('Website', verbose_name="Website")
-	fk_client = models.ForeignKey('Client', verbose_name='Associated Client')
+	website = models.ForeignKey('Website')
+	client = models.ForeignKey('Client')
 	cost = models.DecimalField(max_digits=7, decimal_places=2)
 	renewal_date = models.DateField()	
 
@@ -57,6 +58,15 @@ class Hosting(models.Model):
 			return "Renewal date passed"
 		else:
 			return ""
+
+	def admin_url(self):
+		content_type = ContentType.objects.get_for_model(self.__class__)
+		return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+
+
+class Employee(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	client = models.ForeignKey('Client', blank=True)
 
 	def admin_url(self):
 		content_type = ContentType.objects.get_for_model(self.__class__)

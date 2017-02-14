@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Client, Website, Hosting, Employee
+from models import Client, Website, Hosting, Employee, Ticket
 import datetime
 from django.utils.translation import ugettext_lazy as _
 #from django.contrib.sites.models import Site
@@ -113,6 +113,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.unregister(Site)
+admin.site.register(Ticket)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Website, WebsiteAdmin)
 admin.site.register(Hosting, HostingAdmin)

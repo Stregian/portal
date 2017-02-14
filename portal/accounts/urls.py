@@ -18,5 +18,5 @@ urlpatterns = patterns('',
 
     url(r'^accounts/profile/', 'accounts.views.profile', name = 'profile'),
     #url(r'^accounts/profile/details', 'accounts.views.profile_change', name ='profile_change'),
-    #url(r'^ticket', 'accounts.')
+    url(r'^ticket', 'clients.views.ticket', name = 'ticket')
 )

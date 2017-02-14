@@ -7,7 +7,6 @@ from django import forms
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.forms import AuthenticationForm
-from clients.models import Employee
 
 
 class UserCreationForm(forms.ModelForm):
@@ -20,6 +19,7 @@ class UserCreationForm(forms.ModelForm):
     email1 = forms.EmailField(label="Email", max_length=75)
     email2 = forms.EmailField(label="Email confirmation", max_length=75,
                               help_text = "Enter your email address again. A confirmation email will be sent to this address.")
+    
 
     class Meta:
         model = User

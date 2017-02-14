@@ -96,8 +96,6 @@ def signup_complete(request, template_name='account/signup_complete.html'):
 def profile(request):
     user = get_object_or_404(User, id=request.user.id)    
     print user.username + user.username
-    #if request.method == POST:
-    #    form = ProfileForm(request.POST)
     context = {'user':user}
     return render(request, 'accounts/profile.html', context)
 
